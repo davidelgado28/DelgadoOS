@@ -1,4 +1,4 @@
-name: Build DelgadoOS ISO
+name: Build DelgadoOS ISO 
 
 on:
   workflow_dispatch:
