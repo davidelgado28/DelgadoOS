@@ -27,6 +27,5 @@ cat <<EOF > /etc/skel/.config/Code/User/settings.json
 }
 EOF
 
-# Definindo variáveis de ambiente globais para desenvolvimento
 echo "export EDITOR=code" >> /etc/profile
 echo "export PATH=\$PATH:/opt/vscode/bin:/opt/brave" >> /etc/profile
