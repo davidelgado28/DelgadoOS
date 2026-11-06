@@ -1,44 +1,47 @@
 name: Build DelgadoOS ISO
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch: 
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-iso:
-    name: Compile and Generate ISO
-    runs-on: ubuntu-24.04 
+    runs-on:
+      - self-hosted
+      - linux
+      - x64
+      - lfs-builder
 
     steps:
-      - name: Checkout do Repositório
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Cache do Compilador (ccache)
-        uses: actions/cache@v4
-        with:
-          path: /mnt/delgadoos/tools
-          key: ${{ runner.os }}-lfs-toolchain-${{ hashFiles('scripts/01-lfs-base.sh') }}
-          restore-keys: |
-            ${{ runner.os }}-lfs-toolchain-
-
-      - name: Instalar Dependências do Host (Ubuntu)
+      - name: Verificar scripts
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential bison gawk texinfo squashfs-tools \
-                                  xorriso grub-pc-bin grub-efi mtools libelf-dev libssl-dev ccache
+          bash -n scripts/check-rootfs.sh
+          bash -n scripts/build-iso.sh
 
-      - name: Executar Build Orchestrator
+      - name: Verificar rootfs
+        env:
+          ROOTFS_DIR: ${{ vars.DELGADOOS_ROOTFS_DIR }}
         run: |
-          chmod +x build.sh scripts/*.sh
-          sudo -E ./build.sh
+          test -n "$ROOTFS_DIR" || {
+            echo "Configure DELGADOOS_ROOTFS_DIR nas variáveis do repositório."
+            exit 1
+          }
+          chmod +x scripts/*.sh
+          scripts/check-rootfs.sh
 
-      - name: Upload do Artefato (delgadoos.iso)
+      - name: Criar ISO
+        env:
+          ROOTFS_DIR: ${{ vars.DELGADOOS_ROOTFS_DIR }}
+        run: scripts/build-iso.sh
+
+      - name: Publicar artefato
         uses: actions/upload-artifact@v4
         with:
-          name: delgadoos-1.0-iso
-          path: out/delgadoos.iso
-          retention-days: 5 
+          name: delgadoos-iso
+          path: dist/delgadoos.iso
           if-no-files-found: error
