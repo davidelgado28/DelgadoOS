@@ -13,15 +13,15 @@ case $(uname -m) in
 esac
 
 echo "==> Fase 1: Compilando Sistema Base LFS"
-bash scripts/01-lfs-base.sh
+bash scripts/LFS-page.sh
 
 echo "==> Fase 2: Configurando XFCE e Interface Gráfica (Dark Mode)"
-chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash /scripts/02-blfs-gui.sh
+chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash /scripts/blfs-gui.sh
 
 echo "==> Fase 3: Instalando Stack de Desenvolvimento e Browsers"
-chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash /scripts/03-dev-apps.sh
+chroot "$LFS" /usr/bin/env -i HOME=/root TERM="$TERM" /bin/bash /scripts/dev-apps.sh
 
 echo "==> Fase 4: Limpeza e Geração da Imagem ISO"
-bash scripts/04-generate-iso.sh
+bash scripts/generate-iso.sh
 
 echo "==> Sucesso! delgadoos.iso gerado na pasta ./out/"
