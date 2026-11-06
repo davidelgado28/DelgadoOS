@@ -1,9 +1,20 @@
-# DelgadoOS 
+# DelgadoOS
 
-DelgadoOS é uma distribuição Linux minimalista (< 1GB ISO) baseada nos conceitos do Linux From Scratch (LFS). Foi projetada especificamente para desenvolvedores, unindo a leveza do XFCE4 com um workflow inspirado no Windows moderno e Linux Mint.
+Uma distribuição Linux focada em desenvolvedores, construída do zero (LFS/BLFS). Otimizada, com interface gráfica nativa em Dark Mode e ferramentas essenciais para programação pré-instaladas.
 
-## Principais Recursos
-- **Dark Mode Nativo:** Tema Dracula/Nord em todo o sistema.
-- **Suporte Nativo a `.exe`:** Executáveis do Windows rodam com duplo clique ou via terminal sem configuração adicional (via `binfmt_misc` + Wine-Staging).
-- **Foco em Dev:** VS Code, Brave Browser, GCC, Git, Make, Python3 e Node.js pré-instalados.
-- **Tamanho Reduzido:** Otimizado com SquashFS (ZSTD/XZ) e binários "stripped".
+## Características
+- **Base:** LFS/BLFS (Total controle e zero bloatware).
+- **Interface:** XFCE4 customizado com painel inferior e Whisker Menu (Estilo Linux Mint).
+- **Tema:** Catppuccin Dark (Sistema e VS Code).
+- **Navegador:** Brave Browser (Foco em privacidade e zero anúncios, único navegador do sistema).
+- **Dev Stack:** GCC, Make, Git, Python3, Node.js, VS Code.
+- **Fontes:** JetBrains Mono e Fira Code.
+
+## Como compilar a ISO
+Requisitos do Host: Debian 12 ou Arch Linux com `build-essential`, `bison`, `gawk`, `texinfo`, `squashfs-tools`, `xorriso`, `grub-pc-bin`.
+
+1. Clone o repositório: `git clone https://github.com/seu-usuario/delgadoos.git`
+2. Entre na pasta: `cd delgadoos`
+3. Execute como root: `sudo ./build.sh`
+
+O processo automatizado criará a pasta `out/` contendo o arquivo `delgadoos.iso` pronto para boot em máquinas virtuais ou pendrives.
